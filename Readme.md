@@ -1,6 +1,3 @@
-Certainly! Here's a more detailed version of your `README.md` file, structured similarly to the one you shared, and designed for a comprehensive understanding of using **IANVS** (KubeEdge-Ianvs) with the **Gaymo NuScenes multimodal dataset** for an autonomous vehicle project:
-
----
 
 # Gaymo NuScenes Dataset for Autonomous Vehicle Project using IANVS
 
@@ -311,4 +308,4 @@ This project is licensed under the MIT License.
 
 ---
 
-Feel free to adjust the sections based on specific configurations or implementation details as per your project’s needs!
+
