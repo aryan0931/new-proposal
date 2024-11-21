@@ -1,5 +1,5 @@
 
-# Gaymo NuScenes Dataset for Autonomous Vehicle Project using IANVS
+# NuScenes Dataset for Autonomous Vehicle Project using IANVS
 
 ## Overview
 
@@ -235,20 +235,159 @@ def infer(model, input_data):
 
 ---
 
-## Testing and Evaluation
+Testing and Evaluation
 
-To evaluate the model's performance, metrics like **accuracy**, **precision**, and **recall** can be used.
+Evaluation is a critical step to ensure that the trained models meet performance expectations and are robust across diverse scenarios. This project includes several testing and evaluation techniques:
 
-```python
-from sklearn.metrics import accuracy_score
+Key Evaluation Metrics
+Accuracy: Measures the percentage of correctly predicted labels.
+Formula:
+Accuracy
+=
+Number of Correct Predictions
+Total Number of Predictions
+Accuracy= 
+Total Number of Predictions
+Number of Correct Predictions
+​	
+ 
+Precision and Recall:
+Precision: Fraction of correctly predicted positive instances out of all predicted positives.
+Precision
+=
+True Positives
+True Positives
++
+False Positives
+Precision= 
+True Positives+False Positives
+True Positives
+​	
+ 
+Recall: Fraction of correctly predicted positive instances out of all actual positives.
+Recall
+=
+True Positives
+True Positives
++
+False Negatives
+Recall= 
+True Positives+False Negatives
+True Positives
+​	
+ 
+F1 Score: The harmonic mean of Precision and Recall, balancing both.
+Formula:
+F1 Score
+=
+2
+×
+Precision
+×
+Recall
+Precision
++
+Recall
+F1 Score=2× 
+Precision+Recall
+Precision×Recall
+​	
+ 
+Intersection over Union (IoU): Measures overlap between predicted and ground truth bounding boxes (useful for object detection).
+Formula:
+IoU
+=
+Area of Overlap
+Area of Union
+IoU= 
+Area of Union
+Area of Overlap
+​	
+ 
+Mean Average Precision (mAP): Evaluates the average precision across different classes and IoU thresholds.
+Latency: Measures the time taken for the model to process and infer on edge devices.
+Testing Procedure
+Dataset Splitting:
+Training Set: 70% of the dataset for model training.
+Validation Set: 15% for hyperparameter tuning.
+Test Set: 15% to evaluate model performance.
+Cross-Validation:
+K-fold cross-validation ensures robustness by training and testing the model on multiple dataset partitions.
+Stress Testing:
+Evaluate model performance under challenging conditions such as:
+Poor lighting (e.g., night-time scenes).
+Occlusions (e.g., partially visible objects).
+Adverse weather conditions (e.g., rain, fog).
+Edge Deployment Testing:
+Evaluate model inference on edge devices for latency and throughput.
+Monitor performance under real-world conditions.
+Example Evaluation Code
+Accuracy, Precision, Recall, and F1 Score
 
-def evaluate_model(model, test_data, test_labels):
-    predictions = model.predict(test_data)
-    accuracy = accuracy_score(test_labels, predictions)
-    print(f"Model Accuracy: {accuracy * 100:.2f}%")
-```
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
----
+# Predictions and ground truth
+y_true = [0, 1, 1, 0, 1]
+y_pred = [0, 1, 0, 0, 1]
+
+accuracy = accuracy_score(y_true, y_pred)
+precision = precision_score(y_true, y_pred)
+recall = recall_score(y_true, y_pred)
+f1 = f1_score(y_true, y_pred)
+
+print(f"Accuracy: {accuracy:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+print(f"F1 Score: {f1:.2f}")
+IoU Calculation for Object Detection
+
+def calculate_iou(box1, box2):
+    # Box format: [x_min, y_min, x_max, y_max]
+    x_min = max(box1[0], box2[0])
+    y_min = max(box1[1], box2[1])
+    x_max = min(box1[2], box2[2])
+    y_max = min(box1[3], box2[3])
+
+    # Calculate intersection area
+    intersection = max(0, x_max - x_min) * max(0, y_max - y_min)
+
+    # Calculate union area
+    box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
+    box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
+    union = box1_area + box2_area - intersection
+
+    # IoU calculation
+    return intersection / union if union > 0 else 0
+
+box_a = [50, 50, 150, 150]
+box_b = [60, 60, 170, 170]
+
+iou = calculate_iou(box_a, box_b)
+print(f"IoU: {iou:.2f}")
+Evaluation Scenarios
+Multimodal Testing: Evaluate how well the model fuses and utilizes data from multiple modalities like LiDAR and camera inputs.
+Scenario-Specific Testing: Test performance under specific scenarios, such as highway driving, urban traffic, or low-visibility conditions.
+Energy Efficiency: Measure the model’s energy consumption on edge devices to ensure sustainability.
+Test Results and Reporting
+Visualizations:
+Generate confusion matrices for classification tasks.
+Visualize IoU overlaps for object detection.
+Performance Comparison:
+Compare results against baseline models and industry benchmarks.
+Reporting: Save evaluation results in JSON or CSV format for further analysis.
+import json
+
+results = {
+    "accuracy": accuracy,
+    "precision": precision,
+    "recall": recall,
+    "f1_score": f1,
+    "iou": iou
+}
+
+with open("evaluation_results.json", "w") as f:
+    json.dump(results, f, indent=4)
+By integrating these testing and evaluation practices, the project ensures comprehensive analysis, robustness, and adaptability of the trained models across various scenarios and condi
 
 
 
