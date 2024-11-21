@@ -250,51 +250,7 @@ def evaluate_model(model, test_data, test_labels):
 
 ---
 
-## Deployment in IANVS
 
-Finally, the trained model is deployed in the **IANVS** environment for real-time inference across cloud and
-
- edge nodes. Configuration files like `k8s-deployment.yaml` help manage this process in **Kubernetes**.
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: edge-inference
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: edge-inference
-  template:
-    metadata:
-      labels:
-        app: edge-inference
-    spec:
-      containers:
-      - name: inference-container
-        image: inference-image:latest
-        ports:
-        - containerPort: 8080
-```
-
----
-
-## Project Structure
-
-```
-.
-├── config.yaml              # Configuration file for dataset paths and parameters
-├── data/                    # Raw and preprocessed dataset
-├── src/                     # Source code for preprocessing, training, and inference
-│   ├── preprocessing.py     # Functions for data preprocessing
-│   ├── model.py             # Functions for model architecture and training
-│   └── inference.py         # Functions for running inference
-├── k8s-deployment.yaml      # Kubernetes deployment configuration
-└── README.md                # This file
-```
-
----
 
 ## Contributing
 
