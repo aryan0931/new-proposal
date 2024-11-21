@@ -65,13 +65,7 @@ To containerize the environment for consistency and scalability, you can use Doc
    docker run -it gaymo-nuscense-ianvs
    ```
 
-### Kubernetes Setup (For IANVS)
-Follow the KubeEdge documentation to set up KubeEdge for cloud-edge processing. Afterward, deploy services that handle preprocessing and fusion tasks.
 
-```bash
-# Deploy the services on cloud and edge nodes
-kubectl apply -f k8s-deployment.yaml
-```
 
 ## Data Preprocessing
 
